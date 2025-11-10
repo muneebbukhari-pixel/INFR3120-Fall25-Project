@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaskFlow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <img src="/images/logo.png" alt="Team Logo" class="logo">
+    <h1>TaskFlow</h1>
+  </header>
+
+  <section class="home">
+    <h2>Your Task Dashboard</h2>
+    <a href="/add" class="btn">+ Add New Task</a>
+
+    <table>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Due Date</th>
+        <th>Actions</th>
+      </tr>
+      <% if (tasks.length > 0) { %>
+        <% tasks.forEach(task => { %>
+          <tr>
+            <td><%= task.title %></td>
+            <td><%= task.description %></td>
+            <td><%= task.dueDate %></td>
+            <td>
+              <a href="/edit/<%= task.id %>">Edit</a> |
+              <a href="/delete/<%= task.id %>">Delete</a>
+            </td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr><td colspan="4">No tasks yet. Click “Add New Task” to begin.</td></tr>
+      <% } %>
+    </table>
+  </section>
+
+  <footer>
+    <hr>
+    <p>© 2025 TaskFlow Team — Muneeb B., Saad H., Saad C.</p>
+  </footer>
+</body>
+</html>
