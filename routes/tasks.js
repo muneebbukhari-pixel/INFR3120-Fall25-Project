@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Task = require('../models/Task');
 
-// Middleware to protect routes
+// Protect routes
 function isLoggedIn(req, res, next) {
   if (!req.session.user) return res.redirect('/login');
   next();
@@ -22,6 +22,7 @@ router.post('/add', isLoggedIn, (req, res) => {
 // EDIT FORM
 router.get('/edit/:id', isLoggedIn, (req, res) => {
   const task = Task.getTask(req.params.id);
+  if (!task) return res.redirect('/');
   res.render('editTask', { task });
 });
 

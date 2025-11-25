@@ -1,39 +1,65 @@
 const fs = require('fs');
 const path = require('path');
 
-const tasksFile = path.join(__dirname, "../data/tasks.json");
+const TASKS_FILE = path.join(__dirname, '..', 'tasks.json');
+
+function readTasks() {
+  try {
+    const data = fs.readFileSync(TASKS_FILE, 'utf8');
+    return JSON.parse(data);
+  } catch (err) {
+    return [];
+  }
+}
+
+function writeTasks(tasks) {
+  fs.writeFileSync(TASKS_FILE, JSON.stringify(tasks, null, 2), 'utf8');
+}
+
+function getAllTasks() {
+  return readTasks();
+}
+
+function addTask(data) {
+  const tasks = readTasks();
+
+  const newTask = {
+    id: Date.now().toString(),
+    title: data.title,
+    description: data.description,
+    dueDate: data.dueDate
+  };
+
+  tasks.push(newTask);
+  writeTasks(tasks);
+}
+
+function getTask(id) {
+  const tasks = readTasks();
+  return tasks.find(t => t.id === id);
+}
+
+function updateTask(id, data) {
+  const tasks = readTasks();
+  const index = tasks.findIndex(t => t.id === id);
+  if (index !== -1) {
+    tasks[index].title = data.title;
+    tasks[index].description = data.description;
+    tasks[index].dueDate = data.dueDate;
+    writeTasks(tasks);
+  }
+}
+
+function deleteTask(id) {
+  let tasks = readTasks();
+  tasks = tasks.filter(t => t.id !== id);
+  writeTasks(tasks);
+}
 
 module.exports = {
-  getAll() {
-    return JSON.parse(fs.readFileSync(tasksFile));
-  },
-
-  saveAll(tasks) {
-    fs.writeFileSync(tasksFile, JSON.stringify(tasks, null, 2));
-  },
-
-  addTask(task) {
-    const tasks = this.getAll();
-    task.id = Date.now().toString();
-    tasks.push(task);
-    this.saveAll(tasks);
-  },
-
-  getTask(id) {
-    return this.getAll().find(t => t.id === id);
-  },
-
-  updateTask(id, updated) {
-    const tasks = this.getAll();
-    const index = tasks.findIndex(t => t.id === id);
-
-    tasks[index] = { id, ...updated };
-    this.saveAll(tasks);
-  },
-
-  deleteTask(id) {
-    let tasks = this.getAll();
-    tasks = tasks.filter(t => t.id !== id);
-    this.saveAll(tasks);
-  }
+  getAllTasks,
+  addTask,
+  getTask,
+  updateTask,
+  deleteTask
 };
