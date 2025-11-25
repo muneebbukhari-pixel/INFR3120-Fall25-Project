@@ -1,69 +1,43 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const fs = require("fs");
-const path = require("path");
+const express = require('express');
+const path = require('path');
+const session = require('express-session');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const app = express();
-const PORT = 3000;
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, "public")));
-app.set("view engine", "ejs");
+// View engine
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
-const dataPath = "./data/tasks.json";
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
-function getTasks() {
-  const data = fs.readFileSync(dataPath);
-  return JSON.parse(data);
-}
+// Session
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "taskflowsecret123",
+    resave: false,
+    saveUninitialized: false
+  })
+);
 
-function saveTasks(tasks) {
-  fs.writeFileSync(dataPath, JSON.stringify(tasks, null, 2));
-}
-
-app.get("/", (req, res) => {
-  const tasks = getTasks();
-  res.render("index", { tasks });
+// Make user available in all views
+app.use((req, res, next) => {
+  res.locals.user = req.session.user || null;
+  next();
 });
 
-app.get("/add", (req, res) => {
-  res.render("addTask");
+// Routes
+app.use('/', require('./routes/auth'));
+app.use('/tasks', require('./routes/tasks'));
+
+// Home Page
+app.get('/', (req, res) => {
+  const tasks = require('./data/tasks.json');
+  res.render('index', { title: "TaskFlow", tasks });
 });
 
-app.post("/add", (req, res) => {
-  const tasks = getTasks();
-  const newTask = {
-    id: Date.now(),
-    title: req.body.title,
-    description: req.body.description,
-    dueDate: req.body.dueDate,
-  };
-  tasks.push(newTask);
-  saveTasks(tasks);
-  res.redirect("/");
-});
-
-app.get("/edit/:id", (req, res) => {
-  const tasks = getTasks();
-  const task = tasks.find(t => t.id == req.params.id);
-  res.render("editTask", { task });
-});
-
-app.post("/edit/:id", (req, res) => {
-  let tasks = getTasks();
-  tasks = tasks.map(t =>
-    t.id == req.params.id
-      ? { ...t, title: req.body.title, description: req.body.description, dueDate: req.body.dueDate }
-      : t
-  );
-  saveTasks(tasks);
-  res.redirect("/");
-});
-
-app.get("/delete/:id", (req, res) => {
-  let tasks = getTasks().filter(t => t.id != req.params.id);
-  saveTasks(tasks);
-  res.redirect("/");
-});
-
-app.listen(PORT, () => console.log(`TaskFlow running on http://localhost:${PORT}`));
+// Start
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`TaskFlow running at http://localhost:${PORT}`));
