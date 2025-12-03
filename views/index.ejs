@@ -9,63 +9,75 @@
 </head>
 <body>
 
-  <header>
-    <img src="/images/logo.png" alt="Team Logo" class="logo">
+<header class="main-header">
+
+  <% if (user) { %>
+    <a href="/logout" class="logout-btn">Logout</a>
+  <% } else { %>
+    <div></div>
+  <% } %>
+
+  <div class="center-title">
+    <img src="/images/logo.png" class="logo">
     <h1>TaskFlow</h1>
+  </div>
 
-    <!-- 🔐 AUTH NAVIGATION -->
-    <nav style="margin-top: 10px;">
-      <% if (!user) { %>
-        <a href="/login" class="btn">Login</a>
-        <a href="/register" class="btn">Register</a>
+  <% if (user) { %>
+    <a href="/profile">
+      <img src="/uploads/<%= user.profilePic %>" class="avatar">
+    </a>
+  <% } else { %>
+    <div></div>
+  <% } %>
+
+</header>
+
+<section class="home">
+  <% if (!user) { %>
+
+    <h2>Please login to manage your tasks</h2>
+    <p><a href="/login" class="btn">Go to Login</a></p>
+
+  <% } else { %>
+
+    <h2>Your Task Dashboard</h2>
+    <a href="/tasks/add" class="btn add-btn">+ Add New Task</a>
+
+    <table>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Due Date</th>
+        <th>Actions</th>
+      </tr>
+
+      <% if (tasks.length > 0) { %>
+        <% tasks.forEach(task => { %>
+          <tr>
+            <td><%= task.title %></td>
+            <td><%= task.description %></td>
+            <td><%= task.dueDate %></td>
+            <td>
+              <a href="/tasks/edit/<%= task.id %>">Edit</a> |
+              <a href="/tasks/delete/<%= task.id %>" class="delete">Delete</a>
+            </td>
+          </tr>
+        <% }) %>
       <% } else { %>
-        <a href="/logout" class="btn" style="background:#e63946;">Logout</a>
-      <% } %>
-    </nav>
-  </header>
-
-  <section class="home">
-
-    <% if (!user) { %>
-      <h2>Please login to manage your tasks</h2>
-      <p><a href="/login" class="btn">Go to Login</a></p>
-    <% } else { %>
-
-      <h2>Your Task Dashboard</h2>
-      <a href="/tasks/add" class="btn">+ Add New Task</a>
-
-      <table>
         <tr>
-          <th>Title</th>
-          <th>Description</th>
-          <th>Due Date</th>
-          <th>Actions</th>
+          <td colspan="4" class="empty-msg">No tasks yet. Click “Add New Task” to begin.</td>
         </tr>
-        <% if (tasks.length > 0) { %>
-          <% tasks.forEach(task => { %>
-            <tr>
-              <td><%= task.title %></td>
-              <td><%= task.description %></td>
-              <td><%= task.dueDate %></td>
-              <td>
-                <a href="/tasks/edit/<%= task.id %>">Edit</a> |
-                <a href="/tasks/delete/<%= task.id %>">Delete</a>
-              </td>
-            </tr>
-          <% }) %>
-        <% } else { %>
-          <tr><td colspan="4">No tasks yet. Click “Add New Task” to begin.</td></tr>
-        <% } %>
-      </table>
+      <% } %>
 
-    <% } %>
+    </table>
 
-  </section>
+  <% } %>
+</section>
 
-  <footer>
-    <hr>
-    <p>© 2025 TaskFlow Team — Muneeb B., Saad H., Saad C.</p>
-  </footer>
+<footer>
+  <hr>
+  <p>© 2025 TaskFlow Team — Muneeb B., Saad H., Saad C.</p>
+</footer>
 
 </body>
 </html>

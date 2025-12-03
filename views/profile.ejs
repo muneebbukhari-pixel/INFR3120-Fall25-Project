@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Profile • TaskFlow</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<header class="main-header">
+
+  <a href="/logout" class="logout-btn">Logout</a>
+
+  <div class="center-title">
+    <img src="/images/logo.png" class="logo">
+    <h1>TaskFlow</h1>
+  </div>
+
+  <a href="/profile">
+    <img src="/uploads/<%= user.profilePic %>" class="avatar">
+  </a>
+
+</header>
+
+<section class="form-page">
+
+  <h2>Your Profile</h2>
+
+  <img src="/uploads/<%= user.profilePic %>" class="profile-large">
+
+  <p><strong>Username:</strong> <%= user.username %></p>
+  <p><strong>Email:</strong> <%= user.email %></p>
+
+  <form action="/profile/upload" method="POST" enctype="multipart/form-data" class="form-box">
+    <label>Upload New Profile Picture</label>
+    <input type="file" name="profilePic" accept="image/*" required>
+    <button class="btn">Save</button>
+  </form>
+
+  <p class="switch-link"><a href="/">← Back to Dashboard</a></p>
+
+</section>
+
+</body>
+</html>

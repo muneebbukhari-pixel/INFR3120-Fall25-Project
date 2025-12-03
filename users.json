@@ -3,6 +3,13 @@
     "id": "1764110270588",
     "username": "m1",
     "email": "m1@gmail.com",
-    "password": "$2b$10$lUqPRBIIPlap1uuGxKBfuOVd9ej7Q.u2VcWMr09XGrJ3MCl12Gxs2"
+    "password": "$2b$10$lUqPRBIIPlap1uuGxKBfuOVd9ej7Q.u2VcWMr09XGrJ3MCl12Gxs2",
+    "profilePic": "1764110270588.JPG"
+  },
+  {
+    "id": "1764634214837",
+    "username": "poo",
+    "email": "adam.chadli99@gmail.com",
+    "password": "$2a$10$MZeiNo0PeaW7fh.CLrgrDOeritQ1EdJDaxGcgjIy7X6duzN3JyEJu"
   }
 ]

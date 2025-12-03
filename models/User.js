@@ -8,7 +8,7 @@ function readUsers() {
   try {
     const data = fs.readFileSync(USERS_FILE, 'utf8');
     return JSON.parse(data);
-  } catch (err) {
+  } catch {
     return [];
   }
 }
@@ -30,14 +30,19 @@ async function create(username, email, password) {
     id: Date.now().toString(),
     username,
     email,
-    password: hashed
+    password: hashed,
+    profilePic: "default.png"
   };
 
   users.push(newUser);
   writeUsers(users);
 
-  // Return user without password
-  return { id: newUser.id, username: newUser.username, email: newUser.email };
+  return {
+    id: newUser.id,
+    username: newUser.username,
+    email: newUser.email,
+    profilePic: newUser.profilePic
+  };
 }
 
 async function validate(email, password) {
@@ -48,7 +53,12 @@ async function validate(email, password) {
   const match = await bcrypt.compare(password, user.password);
   if (!match) return null;
 
-  return { id: user.id, username: user.username, email: user.email };
+  return {
+    id: user.id,
+    username: user.username,
+    email: user.email,
+    profilePic: user.profilePic
+  };
 }
 
 async function findByEmail(email) {
@@ -56,8 +66,23 @@ async function findByEmail(email) {
   return users.find(u => u.email === email) || null;
 }
 
+async function updateProfilePic(id, filename) {
+  const users = readUsers();
+  const index = users.findIndex(u => u.id === id);
+
+  if (index !== -1) {
+    users[index].profilePic = filename;
+    writeUsers(users);
+    return true;
+  }
+
+  return false;
+}
+
 module.exports = {
   create,
   validate,
-  findByEmail
+  findByEmail,
+  updateProfilePic
 };
+

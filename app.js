@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const session = require('express-session');
 const dotenv = require('dotenv');
+const cors = require('cors');
 dotenv.config();
 
 const Task = require('./models/Task');
@@ -14,7 +15,14 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// CORS
+app.use(cors({
+  origin: process.env.FRONTEND_URL || "*",
+  credentials: true
+}));
 
 // Session
 app.use(
@@ -25,7 +33,7 @@ app.use(
   })
 );
 
-// Make user available in all views
+// User for views
 app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
   next();
@@ -34,12 +42,13 @@ app.use((req, res, next) => {
 // Routes
 app.use('/', require('./routes/auth'));
 app.use('/tasks', require('./routes/tasks'));
+app.use('/profile', require('./routes/profile'));
 
-// Home: show tasks (only if logged in)
+// Home
 app.get('/', (req, res) => {
   const tasks = Task.getAllTasks();
   res.render('index', { title: 'TaskFlow', tasks });
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Running at http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));

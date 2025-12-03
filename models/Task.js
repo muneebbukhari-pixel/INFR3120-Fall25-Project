@@ -7,7 +7,7 @@ function readTasks() {
   try {
     const data = fs.readFileSync(TASKS_FILE, 'utf8');
     return JSON.parse(data);
-  } catch (err) {
+  } catch {
     return [];
   }
 }
@@ -42,6 +42,7 @@ function getTask(id) {
 function updateTask(id, data) {
   const tasks = readTasks();
   const index = tasks.findIndex(t => t.id === id);
+
   if (index !== -1) {
     tasks[index].title = data.title;
     tasks[index].description = data.description;

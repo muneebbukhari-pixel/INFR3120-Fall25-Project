@@ -6,32 +6,65 @@
 }
 
 body {
-  background-color: whitesmoke;
+  background-image: url("/images/background.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   color: dimgray;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  backdrop-filter: blur(3px);
 }
 
-header {
-  background-color: royalblue;
-  color: white;
-  padding: 20px 40px;
+.main-header {
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  justify-content: space-between;
+  background: linear-gradient(to right, navy, royalblue);
+  padding: 20px 35px;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+
+.center-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .logo {
   width: 60px;
-  margin-right: 15px;
 }
 
 h1 {
   font-size: 1.8rem;
-  letter-spacing: 1px;
   font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.logout-btn {
+  background: crimson;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.logout-btn:hover {
+  background: firebrick;
+}
+
+.avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+  cursor: pointer;
 }
 
 .home, h2, form {
@@ -54,7 +87,7 @@ h2 {
   border: none;
   cursor: pointer;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: 0.3s;
   font-size: 0.95rem;
 }
 
@@ -94,8 +127,17 @@ td a {
   font-weight: 500;
 }
 
+td a.delete {
+  color: crimson;
+}
+
 td a:hover {
   text-decoration: underline;
+}
+
+.empty-msg {
+  font-style: italic;
+  color: gray;
 }
 
 form {
@@ -117,7 +159,10 @@ label {
 
 input[type="text"],
 input[type="date"],
-textarea {
+input[type="email"],
+input[type="password"],
+textarea,
+input[type="file"] {
   width: 100%;
   padding: 10px;
   margin-bottom: 20px;
@@ -137,6 +182,36 @@ textarea {
   height: 80px;
 }
 
+.form-page {
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.profile-large {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid royalblue;
+  margin-bottom: 20px;
+}
+
+.form-box {
+  margin-top: 20px;
+}
+
+.switch-link {
+  margin-top: 15px;
+  color:whitesmoke;
+}
+
+.switch-link a {
+  color: whitesmoke;
+  text-decoration: none;
+  font-weight: 500;
+}
+
 footer {
   background-color: royalblue;
   color: white;
@@ -145,6 +220,12 @@ footer {
   font-size: 0.9rem;
   margin-top: auto;
   box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+}
+
+hr {
+  border: none;
+  border-top: 1px solid white;
+  margin-bottom: 10px;
 }
 
 @media (max-width: 768px) {

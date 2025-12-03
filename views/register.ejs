@@ -1,30 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Register</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register • TaskFlow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-<h2>Register</h2>
+<header class="main-header">
+  <div></div>
 
-<% if (error) { %>
-  <p style="color:red;"><%= error %></p>
-<% } %>
+  <div class="center-title">
+    <img src="/images/logo.png" class="logo">
+    <h1>TaskFlow</h1>
+  </div>
 
-<form action="/register" method="POST">
-  <label>Username:</label>
-  <input type="text" name="username" required><br>
+  <div></div>
+</header>
 
-  <label>Email:</label>
-  <input type="email" name="email" required><br>
+<section class="form-page">
+  <h2>Create Account</h2>
 
-  <label>Password:</label>
-  <input type="password" name="password" required><br>
+  <% if (error) { %>
+    <p class="error"><%= error %></p>
+  <% } %>
 
-  <button type="submit">Create Account</button>
-</form>
+  <form action="/register" method="POST" class="form-box">
 
-<p>Already have an account? <a href="/login">Login</a></p>
+    <label>Username</label>
+    <input type="text" name="username" required>
+
+    <label>Email</label>
+    <input type="email" name="email" required>
+
+    <label>Password</label>
+    <input type="password" name="password" required>
+
+    <button class="btn">Register</button>
+  </form>
+
+  <p class="switch-link">Already have an account? <a href="/login">Login</a></p>
+</section>
+
+<footer>
+  <hr>
+  <p>© 2025 TaskFlow Team</p>
+</footer>
 
 </body>
 </html>

@@ -3,34 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Add New Task | TaskFlow</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>Add Task • TaskFlow</title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-  <header>
-    <img src="/images/logo.png" alt="Team Logo" class="logo">
+
+<header class="main-header">
+
+  <a href="/logout" class="logout-btn">Logout</a>
+
+  <div class="center-title">
+    <img src="/images/logo.png" class="logo">
     <h1>TaskFlow</h1>
-  </header>
+  </div>
 
+  <a href="/profile">
+    <img src="/uploads/<%= user.profilePic %>" class="avatar">
+  </a>
+
+</header>
+
+<section class="form-page">
   <h2>Add New Task</h2>
-  <form method="POST" action="/tasks/add">
 
-    <label>Title:</label>
-    <input type="text" name="title" required><br>
+  <form action="/tasks/add" method="POST" class="form-box">
 
-    <label>Description:</label>
-    <textarea name="description" required></textarea><br>
+    <label>Title</label>
+    <input type="text" name="title" required>
 
-    <label>Due Date:</label>
-    <input type="date" name="dueDate" required><br>
+    <label>Description</label>
+    <textarea name="description" required></textarea>
 
-    <button type="submit">Add Task</button>
+    <label>Due Date</label>
+    <input type="date" name="dueDate" required>
+
+    <button class="btn">Add Task</button>
   </form>
 
-  <footer>
-    <hr>
-    <p>© 2025 TaskFlow Team — Muneeb B., Saad H., Saad C.</p>
-  </footer>
+  <p class="switch-link"><a href="/">← Back to Dashboard</a></p>
+</section>
+
 </body>
 </html>
